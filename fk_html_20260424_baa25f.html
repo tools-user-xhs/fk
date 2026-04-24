@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>外贸结算智库 | 信用证·付款方式专业查询</title>
+    <!-- 现代字体 Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f9fe;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            color: #1a2c3c;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* 头部 */
+        .hero {
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(130deg, #1B4E5C 0%, #236B5E 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .hero p {
+            color: #5a6f7c;
+            font-size: 1rem;
+            border-left: 3px solid #2E7A6E;
+            padding-left: 1rem;
+            margin-top: 0.3rem;
+            font-weight: 400;
+        }
+
+        /* 查询卡片 */
+        .query-card {
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 1.5rem;
+        }
+        .select-group {
+            flex: 2;
+            min-width: 260px;
+        }
+        .select-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #4A6F7C;
+            margin-bottom: 0.5rem;
+        }
+        .custom-select {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            background-color: #fefefe;
+            border: 1px solid #e2eaf0;
+            border-radius: 2rem;
+            color: #1f3b44;
+            transition: all 0.2s;
+            cursor: pointer;
+            outline: none;
+        }
+        .custom-select:focus {
+            border-color: #2E7A6E;
+            box-shadow: 0 0 0 3px rgba(46, 122, 110, 0.1);
+        }
+        .query-btn {
+            background: #1f4e5c;
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 2.5rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .query-btn:hover {
+            background: #0f3a44;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -10px rgba(31, 78, 92, 0.3);
+        }
+
+        /* SOP 垂直布局 */
+        .sop-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+        .info-card {
+            background: #ffffff;
+            border-radius: 1.75rem;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            padding: 1.6rem 1.8rem;
+        }
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
+            color: #1c4b5a;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 0.65rem;
+        }
+        .card-title span {
+            background: #eef3f0;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.8rem;
+            font-weight: 500;
+            color: #2a6b5e;
+        }
+        .meaning-text {
+            font-size: 1rem;
+            color: #2c3f48;
+            line-height: 1.55;
+        }
+
+        /* 责任边界示意图容器 - 动态内容统一样式 */
+        .responsibility-visual {
+            background: #F8FBFE;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #E9F0F4;
+        }
+        .flow-roles {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .role-card {
+            background: white;
+            border-radius: 1.2rem;
+            padding: 0.7rem 0.9rem;
+            text-align: center;
+            min-width: 100px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            border: 1px solid #eef2f6;
+        }
+        .role-icon {
+            font-size: 1.6rem;
+            margin-bottom: 0.3rem;
+        }
+        .role-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #1b5e5a;
+        }
+        .role-desc {
+            font-size: 0.7rem;
+            color: #5f7e8c;
+            margin-top: 0.2rem;
+        }
+        .arrow-symbol {
+            font-size: 1.5rem;
+            color: #2E7A6E;
+            font-weight: 300;
+        }
+        .flow-note {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #6b8c9a;
+            background: #ffffffcc;
+            border-radius: 1rem;
+            padding: 0.4rem;
+            margin-top: 0.5rem;
+        }
+
+        /* 责任边界详细文本 */
+        .responsibility-detail {
+            font-size: 0.96rem;
+            color: #2c3f48;
+            line-height: 1.55;
+            background: #FEFCF5;
+            padding: 1rem 1.2rem;
+            border-radius: 1rem;
+            border-left: 3px solid #2E7A6E;
+        }
+        .responsibility-detail strong {
+            color: #1c5e5a;
+            font-weight: 600;
+        }
+        .responsibility-detail ul {
+            margin: 0.5rem 0 0.8rem 1.2rem;
+        }
+        .responsibility-detail li {
+            margin: 0.3rem 0;
+        }
+        .responsibility-detail .risk-block {
+            background: #fff2e8;
+            padding: 0.6rem 0.8rem;
+            border-radius: 0.8rem;
+            margin-top: 0.6rem;
+            border-left: 2px solid #ca711a;
+        }
+
+        .example-text {
+            font-size: 1rem;
+            color: #2c3f48;
+            line-height: 1.55;
+        }
+
+        /* 矩阵表格 */
+        .matrix-section {
+            background: #ffffff;
+            border-radius: 1.75rem;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            padding: 1.6rem 1.8rem;
+            margin-top: 0.5rem;
+        }
+        .matrix-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1c4b5a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .matrix-title small {
+            font-size: 0.8rem;
+            font-weight: normal;
+            background: #eef2f6;
+            padding: 0.2rem 0.9rem;
+            border-radius: 2rem;
+            color: #2a6b5e;
+        }
+        .risk-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .risk-table th {
+            text-align: left;
+            padding: 1rem 0.8rem 0.8rem 0.8rem;
+            background: #f9fbfd;
+            font-weight: 600;
+            color: #2b5b6e;
+            border-bottom: 1px solid #e4ecf2;
+            font-size: 0.9rem;
+        }
+        .risk-table td {
+            padding: 1rem 0.8rem;
+            border-bottom: 1px solid #eff3f8;
+            vertical-align: middle;
+            color: #2c3f48;
+            font-size: 0.9rem;
+        }
+        .badge-risk {
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .risk-high { background: #ffe9e8; color: #bc4a3f; }
+        .risk-mid { background: #fff0df; color: #ca711a; }
+        .risk-low { background: #e1f4ef; color: #1e6e5c; }
+        .highlight-row {
+            background: #effaf7;
+            border-left: 3px solid #2e7a6e;
+            box-shadow: inset 0 0 0 1px #cde3dc;
+        }
+
+        /* 矩阵解读区域 */
+        .matrix-note {
+            margin-top: 1.5rem;
+            background: #fafcfe;
+            padding: 1.2rem 1.5rem;
+            border-radius: 1.2rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            color: #2c4a5c;
+            border: 1px solid #eef2f6;
+        }
+        .matrix-note p {
+            margin-bottom: 0.6rem;
+        }
+        .matrix-note strong {
+            color: #1e5f5c;
+            font-weight: 600;
+        }
+        .matrix-note .highlight-tip {
+            background: #eef3f0;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            display: inline-block;
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.8rem;
+            color: #9bb3c0;
+            border-top: 1px solid #e2e9f0;
+            padding-top: 1.8rem;
+        }
+
+        @media (max-width: 700px) {
+            body { padding: 1rem; }
+            .flow-roles { flex-direction: column; gap: 0.5rem; }
+            .arrow-symbol { transform: rotate(90deg); }
+            .query-card { flex-direction: column; align-items: stretch; }
+            .info-card { padding: 1.2rem; }
+            .risk-table th, .risk-table td { padding: 0.6rem 0.3rem; font-size: 0.8rem; }
+            .matrix-note { font-size: 0.85rem; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <h1>📋 外贸结算智库</h1>
+        <p>信用证 · 电汇 · 托收 · 赊账 · 专业决策工具 | 动态资金流向示意 + 精细化费用矩阵</p>
+    </div>
+
+    <div class="query-card">
+        <div class="select-group">
+            <label>📌 选择付款方式</label>
+            <select id="paymentSelect" class="custom-select">
+                <option value="TT">T/T (电汇) — Telegraphic Transfer</option>
+                <option value="LC">L/C (信用证) — Letter of Credit</option>
+                <option value="DP">D/P (付款交单) — Documents against Payment</option>
+                <option value="DA">D/A (承兑交单) — Documents against Acceptance</option>
+                <option value="OA">O/A (赊账) — Open Account</option>
+                <option value="COD">COD (货到付款) — Cash on Delivery</option>
+            </select>
+        </div>
+        <button id="queryBtn" class="query-btn">✨ 查询 & 分析</button>
+    </div>
+
+    <div id="sopVertical" class="sop-vertical">
+        <!-- 含义卡片 -->
+        <div class="info-card">
+            <div class="card-title">📖 含义释义 <span>小白秒懂</span></div>
+            <div class="meaning-text" id="meaningText">选择上方付款方式，点击查询即可获得详细解读</div>
+        </div>
+
+        <!-- 责任边界卡片（示意图动态 + 详细文本） -->
+        <div class="info-card">
+            <div class="card-title">⚖️ 买卖责任边界 <span>清晰划分·银行参与示意</span></div>
+            <div id="dynamicVisualArea" class="responsibility-visual">
+                <!-- 动态生成的示意图会放在这里 -->
+                <div class="flow-roles" id="flowRolesContainer"></div>
+                <div class="flow-note" id="flowNote"></div>
+            </div>
+            <div class="responsibility-detail" id="responsibilityDetailText">
+                详细责任边界与风险说明
+            </div>
+        </div>
+
+        <!-- 实例卡片 -->
+        <div class="info-card">
+            <div class="card-title">💼 实战案例代入 <span>场景演练</span></div>
+            <div class="example-text" id="exampleText">结合实际外贸场景，帮助理解资金流与单证流</div>
+        </div>
+    </div>
+
+    <!-- 风险费用矩阵 -->
+    <div class="matrix-section">
+        <div class="matrix-title">🧩 风险 & 费用对比矩阵 <small>横向对比 · 辅助商业决策</small></div>
+        <table class="risk-table" id="matrixTable">
+            <thead><tr><th>付款方式</th><th>买方风险</th><th>卖方风险</th><th>综合风险</th><th>费用成本 + 具体项目</th><th>推荐场景</th></thead>
+            <tbody id="matrixBody"></tbody>
+        </table>
+        <div class="matrix-note" id="matrixNote"></div>
+    </div>
+    <footer>外贸支付方式智库 · 数据基于ICC国际惯例 | 示意图跟随付款方式动态变化</footer>
+</div>
+
+<script>
+    // ---------- 付款方式核心数据 ----------
+    const paymentLibrary = {
+        TT: {
+            name: "T/T (电汇)",
+            meaning: "电汇（Telegraphic Transfer）指买方通过银行电子汇款系统将货款直接转入卖方账户。分为前T/T（先付款后发货）和后T/T（先发货后付款）。",
+            responsibilityDetail: `
+                <strong>👤 买方责任（汇款人）</strong><br>
+                按时足额汇款，承担银行电汇手续费；前T/T需信任卖方。<br><br>
+                <strong>🏭 卖方责任（收款人）</strong><br>
+                收款后安排生产/发货，提供准确账户信息。<br><br>
+                <strong>🏦 银行角色（汇出行/汇入行）</strong><br>
+                负责资金清算，不承担商业纠纷。<br><br>
+                <div class="risk-block">
+                <strong>⚠️ 风险提示</strong><br>
+                • 买方风险：预付后卖方不发货。<br>
+                • 卖方风险：后T/T发货后买方拖欠尾款。
+                </div>
+            `,
+            example: "📦 实例：深圳电子厂与美国客户签订$20,000订单，约定30%前T/T定金，70%见提单副本后T/T。买方电汇定金后工厂生产，发货后买方获得提单副本后才支付尾款，卖方收到尾款后寄出正本提单，买方凭正本提货，安全高效。",
+            // 动态示意图配置
+            visual: {
+                roles: [
+                    { icon: "👤", name: "汇款人", desc: "买方/进口商" },
+                    { icon: "🏦", name: "汇出行", desc: "买方银行" },
+                    { icon: "🏦", name: "汇入行", desc: "卖方银行" },
+                    { icon: "👥", name: "收款人", desc: "卖方/出口商" }
+                ],
+                note: "💸 资金流向：汇款人 → 汇出行 → 汇入行 → 收款人 | 📄 单据/合同责任见下方详解"
+            }
+        },
+        LC: {
+            name: "L/C (信用证)",
+            meaning: "信用证是银行根据买方申请开立的有条件付款承诺。卖方按条款发货并提交相符单据，开证行承担第一性付款责任，属于银行信用。",
+            responsibilityDetail: `
+                <strong>👤 买方责任（开证申请人）</strong><br>
+                申请开立信用证并支付开证费，保证单证一致。<br><br>
+                <strong>🏭 卖方责任（受益人）</strong><br>
+                严格按信用证条款备货、制单，提交无瑕单据。<br><br>
+                <strong>🏦 银行角色（开证行/通知行）</strong><br>
+                开证行承担第一性付款责任，银行信用介入。<br><br>
+                <div class="risk-block">
+                <strong>⚠️ 风险提示</strong><br>
+                • 单据不符导致银行拒付。<br>
+                • 软条款陷阱，但银行信用风险极低。
+                </div>
+            `,
+            example: "🏦 实例：孟加拉进口商与浙江纺企签订$100,000合同，采用即期信用证。卖方装船后提交全套清洁提单、发票等，开证行审核无误后付款，买卖双方均受银行信用保障。",
+            visual: {
+                roles: [
+                    { icon: "👤", name: "开证申请人", desc: "买方" },
+                    { icon: "🏦", name: "开证行", desc: "买方银行" },
+                    { icon: "🏦", name: "通知行", desc: "卖方银行" },
+                    { icon: "👥", name: "受益人", desc: "卖方" }
+                ],
+                note: "📜 单据流向：受益人 → 通知行 → 开证行 → 申请人 | 💰 资金流向相反，银行信用介入"
+            }
+        },
+        DP: {
+            name: "D/P (付款交单)",
+            meaning: "付款交单：卖方发货后将单据通过托收行寄至买方代收行，买方支付货款后才能取得单据提货，属于商业信用。",
+            responsibilityDetail: `
+                <strong>👤 买方责任</strong><br>
+                付款后才能拿到提单，承担拒付导致的商业信誉损失。<br><br>
+                <strong>🏭 卖方责任</strong><br>
+                发货后及时托收，承担货物在途风险。<br><br>
+                <strong>🏦 银行角色（托收行/代收行）</strong><br>
+                仅作为资金与单据传递中介，不承担付款责任。<br><br>
+                <div class="risk-block">
+                <strong>⚠️ 风险提示</strong><br>
+                • 买方拒付时货物滞港产生高额费用，卖方风险中等。
+                </div>
+            `,
+            example: "🚢 实例：青岛出口商向埃及买家出口钢材，采用D/P at sight。货到亚历山大港后，代收行通知买方付款赎单。买方支付货款后拿到提单顺利清关，卖方收到全额货款。",
+            visual: {
+                roles: [
+                    { icon: "👥", name: "委托人", desc: "卖方" },
+                    { icon: "🏦", name: "托收行", desc: "卖方银行" },
+                    { icon: "🏦", name: "代收行", desc: "买方银行" },
+                    { icon: "👤", name: "付款人", desc: "买方" }
+                ],
+                note: "📄 单据委托：委托人 → 托收行 → 代收行 → 付款人（付款后放单） | 💸 资金反向"
+            }
+        },
+        DA: {
+            name: "D/A (承兑交单)",
+            meaning: "承兑交单：卖方通过银行托收，买方只需在远期汇票上承兑（承诺到期付款）即可取得单据提货，到期再付清货款。",
+            responsibilityDetail: `
+                <strong>👤 买方责任</strong><br>
+                承兑汇票后提货，汇票到期日必须付款。<br><br>
+                <strong>🏭 卖方责任</strong><br>
+                发货后承担远期付款风险，资金占压。<br><br>
+                <strong>🏦 银行角色</strong><br>
+                仅办理托收和提示承兑，不担保付款。<br><br>
+                <div class="risk-block">
+                <strong>⚠️ 风险提示</strong><br>
+                • 买方承兑提货后到期不付，卖方钱货两空，风险较高，仅限高信誉老客户。
+                </div>
+            `,
+            example: "📑 实例：宁波汽配厂与东南亚老客户使用D/A 60天。买方承兑汇票后立即提货销售，60天后向银行付款。卖方虽获得订单但承担资金占压和买方信用风险。",
+            visual: {
+                roles: [
+                    { icon: "👥", name: "委托人", desc: "卖方" },
+                    { icon: "🏦", name: "托收行", desc: "卖方银行" },
+                    { icon: "🏦", name: "代收行", desc: "买方银行" },
+                    { icon: "👤", name: "承兑人", desc: "买方" }
+                ],
+                note: "📄 单据凭承兑释放，汇票到期后付款 | ⚠️ 卖方承担买方信用风险"
+            }
+        },
+        OA: {
+            name: "O/A (赊销)",
+            meaning: "赊销交易：卖方先发货，买方在约定信用期内（如30/60/90天）支付货款，无银行单据参与，完全基于商业信用。",
+            responsibilityDetail: `
+                <strong>👤 买方责任</strong><br>
+                信用期内无条件付款。<br><br>
+                <strong>🏭 卖方责任</strong><br>
+                发货后承担几乎全部买方信用风险。<br><br>
+                <strong>🏦 银行角色</strong><br>
+                无银行参与，资金直接由买方账户汇至卖方账户。<br><br>
+                <div class="risk-block">
+                <strong>⚠️ 风险提示</strong><br>
+                • 买方拖欠甚至破产导致坏账；对卖方现金流压力极大，建议搭配出口信用保险。
+                </div>
+            `,
+            example: "🌐 实例：杭州家居出口商与欧美连锁超市签约O/A 45天。卖方每批货发出后45天超市付款，虽提高销量但占压大量资金，买方拖延会带来财务风险。",
+            visual: {
+                roles: [
+                    { icon: "👤", name: "买方", desc: "债务人" },
+                    { icon: "➡️", name: "", desc: "直接付款" },
+                    { icon: "👥", name: "卖方", desc: "债权人" }
+                ],
+                note: "💰 无银行中介：买方直接付款至卖方账户 | 完全依赖商业信用"
+            }
+        },
+        COD: {
+            name: "COD (货到付款)",
+            meaning: "货到付款：卖方将货物运至买方指定地点，买方验收货物后当场支付货款，通常用于快递或小额外贸。",
+            responsibilityDetail: `
+                <strong>👤 买方责任</strong><br>
+                收货验货，当场付款。<br><br>
+                <strong>🏭 卖方责任</strong><br>
+                承担运输风险及货物毁损风险，货到才能收款。<br><br>
+                <strong>🏦 银行/物流角色</strong><br>
+                物流公司可能代收货款，起到类似“汇入行”的转交作用。<br><br>
+                <div class="risk-block">
+                <strong>⚠️ 风险提示</strong><br>
+                • 买方拒收导致来回运费损失，资金回笼慢，适合样品单或信任度较低场景。
+                </div>
+            `,
+            example: "📬 实例：广州皮具商家通过跨境B2C向澳大利亚客户寄送样品，使用COD。快递员送货上门客户检查后支付澳元，卖家虽方便但需承担拒付风险。",
+            visual: {
+                roles: [
+                    { icon: "👥", name: "卖方", desc: "发货人" },
+                    { icon: "🚚", name: "物流公司", desc: "代收货款" },
+                    { icon: "👤", name: "买方", desc: "收货人" }
+                ],
+                note: "📦 物流代收货款：卖方 → 物流 → 买方（验货付款） | 买方拒收则退回"
+            }
+        }
+    };
+
+    // 矩阵数据
+    const matrixData = [
+        { code: "TT", label: "T/T 电汇", buyerRisk: "中", sellerRisk: "中高", overallRisk: "中", costDetail: "💰 低 (银行电汇费约0.1% + 中间行费)<br>⚡ 即时：到账快；📅 远期：无额外利息但占用卖方资金成本", scene: "预付款/尾款结合，灵活常用" },
+        { code: "LC", label: "L/C 信用证", buyerRisk: "低", sellerRisk: "低", overallRisk: "低", costDetail: "💸 高 (开证费1.5%~2% + 通知费+议付费+不符点费)", scene: "大额贸易，首次合作/高风险" },
+        { code: "DP", label: "D/P 付款交单", buyerRisk: "中", sellerRisk: "中", overallRisk: "中", costDetail: "📄 中 (托收手续费约0.1%~0.2% + 邮递费)", scene: "海运单据控制，相对稳妥" },
+        { code: "DA", label: "D/A 承兑交单", buyerRisk: "低", sellerRisk: "高", overallRisk: "高", costDetail: "📄 中 (托收费+可能产生的资金占压成本)", scene: "老客户，卖方愿意承受账期风险" },
+        { code: "OA", label: "O/A 赊销", buyerRisk: "极低", sellerRisk: "极高", overallRisk: "高", costDetail: "🆓 表面低 (无银行费但隐含信用保险成本约0.5%~1%及资金成本)", scene: "买方市场，高信任长期合作" },
+        { code: "COD", label: "COD 货到付款", buyerRisk: "低", sellerRisk: "高", overallRisk: "中高", costDetail: "🚚 中 (物流代收手续费约1%~3% + 拒收退回风险成本)", scene: "小包裹/样品/电商直发" }
+    ];
+
+    // 通用函数: 渲染风险badge
+    function getRiskBadge(riskLevel) {
+        let levelClass = 'risk-mid';
+        let display = riskLevel;
+        if (riskLevel === '极高' || riskLevel === '高') levelClass = 'risk-high';
+        else if (riskLevel === '中高' || riskLevel === '中') levelClass = 'risk-mid';
+        else if (riskLevel === '低' || riskLevel === '极低') levelClass = 'risk-low';
+        return `<span class="badge-risk ${levelClass}">${display}</span>`;
+    }
+
+    // 渲染矩阵表格及高亮
+    function renderMatrix(selectedCode) {
+        const tbody = document.getElementById('matrixBody');
+        if (!tbody) return;
+        let html = '';
+        for (let item of matrixData) {
+            const isSelected = (item.code === selectedCode);
+            let overallClass = '';
+            if (item.overallRisk === '高') overallClass = 'risk-high';
+            else if (item.overallRisk === '中高' || item.overallRisk === '中') overallClass = 'risk-mid';
+            else overallClass = 'risk-low';
+            const buyerBadge = getRiskBadge(item.buyerRisk);
+            const sellerBadge = getRiskBadge(item.sellerRisk);
+            const overallBadge = `<span class="badge-risk ${overallClass}">${item.overallRisk}</span>`;
+            const costHtml = `<span style="font-size:0.8rem; line-height:1.4;">${item.costDetail}</span>`;
+            html += `<tr class="${isSelected ? 'highlight-row' : ''}">
+                        <td style="font-weight:600;">${item.label}</td>
+                        <td>${buyerBadge}</td>
+                        <td>${sellerBadge}</td>
+                        <td>${overallBadge}</td>
+                        <td style="max-width:260px;">${costHtml}</td>
+                        <td style="font-size:0.85rem;">${item.scene}</td>
+                      </tr>`;
+        }
+        tbody.innerHTML = html;
+    }
+
+    // 更新矩阵解读文本
+    function updateMatrixNote() {
+        const noteDiv = document.getElementById('matrixNote');
+        if (noteDiv) {
+            noteDiv.innerHTML = `
+                <p>💡 <strong>矩阵解读</strong>：综合风险越高越需谨慎；费用成本包含银行手续费、操作费、资金占压等。</p>
+                <p>📌 <strong>选用策略</strong>：新客户建议 T/T 预付定金；老客户或高信誉地区可尝试 O/A + 信用保险。</p>
+                <p><span class="highlight-tip">⚡ T/T 即时：到账快，手续费约0.1% ； 📅 T/T 远期：类似后T/T，占用卖方资金，无额外银行利息但隐含资金成本。</span></p>
+            `;
+        }
+    }
+
+    // 动态渲染示意图 (根据付款方式配置)
+    function renderVisual(paymentKey) {
+        const config = paymentLibrary[paymentKey]?.visual;
+        if (!config) return;
+        const roles = config.roles;
+        const note = config.note;
+        const container = document.getElementById('flowRolesContainer');
+        const noteDiv = document.getElementById('flowNote');
+        if (!container) return;
+        // 生成角色卡片HTML
+        let rolesHtml = '';
+        for (let i = 0; i < roles.length; i++) {
+            const role = roles[i];
+            // 特殊处理: 如果 role.name 为 "➡️" 则显示为箭头 (针对O/A的简化处理)
+            if (role.name === "➡️") {
+                rolesHtml += `<div class="arrow-symbol">➡️</div>`;
+            } else {
+                rolesHtml += `
+                    <div class="role-card">
+                        <div class="role-icon">${role.icon}</div>
+                        <div class="role-name">${role.name}</div>
+                        <div class="role-desc">${role.desc}</div>
+                    </div>
+                `;
+            }
+            // 在两个角色之间添加箭头 (除了最后一个)
+            if (i < roles.length - 1 && roles[i+1]?.name !== "➡️" && role.name !== "➡️") {
+                rolesHtml += `<div class="arrow-symbol">➡️</div>`;
+            }
+        }
+        container.innerHTML = rolesHtml;
+        noteDiv.innerHTML = note;
+    }
+
+    // 更新整个内容区域
+    function updateContent(paymentKey) {
+        const data = paymentLibrary[paymentKey];
+        if (!data) return;
+        document.getElementById('meaningText').innerHTML = data.meaning;
+        document.getElementById('responsibilityDetailText').innerHTML = data.responsibilityDetail;
+        document.getElementById('exampleText').innerHTML = data.example;
+        // 更新动态示意图
+        renderVisual(paymentKey);
+        // 更新矩阵高亮
+        const codeMap = { TT:"TT", LC:"LC", DP:"DP", DA:"DA", OA:"OA", COD:"COD" };
+        renderMatrix(codeMap[paymentKey] || "TT");
+        updateMatrixNote();
+    }
+
+    // 事件绑定与初始化
+    function bindEvents() {
+        const btn = document.getElementById('queryBtn');
+        const select = document.getElementById('paymentSelect');
+        if (!btn || !select) return;
+        btn.addEventListener('click', () => {
+            let val = select.value;
+            let key = '';
+            if (val === 'TT') key = 'TT';
+            else if (val === 'LC') key = 'LC';
+            else if (val === 'DP') key = 'DP';
+            else if (val === 'DA') key = 'DA';
+            else if (val === 'OA') key = 'OA';
+            else if (val === 'COD') key = 'COD';
+            else key = 'TT';
+            updateContent(key);
+            document.getElementById('sopVertical')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
+
+    function initDefault() {
+        const select = document.getElementById('paymentSelect');
+        if (select) select.value = "TT";
+        updateContent('TT');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        bindEvents();
+        initDefault();
+    });
+</script>
+</body>
+</html>
